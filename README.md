@@ -1,2 +1,2 @@
 # snitch
-Keep updated over all deploys on Tsuru
+Keep updated about all deploys on Tsuru
