@@ -1,4 +1,7 @@
 # Snitch
+[![Build Status](https://travis-ci.org/lucasgomide/snitch.svg?branch=master)](https://travis-ci.org/lucasgomide/snitch)
+[![Coverage Status](https://coveralls.io/repos/github/lucasgomide/snitch/badge.svg?branch=master)](https://coveralls.io/github/lucasgomide/snitch?branch=master)
+
 Keep updated about each deploy via [Tsuru](https://docs.tsuru.io/stable/)
 
 This program will notify your team when someone has deployed any application via [Tsuru](https://docs.tsuru.io/stable/).

@@ -2,7 +2,7 @@
 *.o
 *.a
 *.so
-
+*.coverprofile
 # Folders
 _obj
 _test
