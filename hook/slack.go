@@ -20,7 +20,7 @@ func (s *Slack) CallHook(deploy []snitch.Deploy) error {
 	}
 
 	if resp.StatusCode != 200 {
-		return errors.New("Slack - response status code wasn't 200")
+		return errors.New("Slack - response status code isn't 200")
 	}
 	return nil
 }

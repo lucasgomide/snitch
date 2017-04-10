@@ -28,7 +28,7 @@ func TestWhenNotificatedSuccessful(t *testing.T) {
 	}
 }
 
-func TestWhenResponseStatusCodeWasnt200(t *testing.T) {
+func TestWhenResponseStatusCodeIsnt200(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -40,12 +40,12 @@ func TestWhenResponseStatusCodeWasnt200(t *testing.T) {
 	deploy = append(deploy, snitch.Deploy{App: "app-sample"})
 
 	err = slack.CallHook(deploy)
-	if err == nil || err.Error() != "Slack - response status code wasn't 200" {
-		t.Error("It's Exptected that return error when the response status code wasn't 200")
+	if err == nil || err.Error() != "Slack - response status code isn't 200" {
+		t.Error("It's Exptected that return error when the response status code isn't 200")
 	}
 }
 
-func TestWhenRequestFail(t *testing.T) {
+func TestReturnsErrorWhenRequestFail(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
@@ -57,7 +57,7 @@ func TestWhenRequestFail(t *testing.T) {
 
 	err = slack.CallHook(deploy)
 	if err == nil {
-		t.Error("The request fail and no erros have been happened")
+		t.Error("The request has been failed but no error was raised")
 	}
 }
 

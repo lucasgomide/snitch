@@ -32,7 +32,7 @@ func (t TsuruAPI) FindLastDeploy(deploy *[]snitch.Deploy) error {
 	}
 
 	if resp.StatusCode != 200 {
-		return errors.New("TsuruAPI - response status code wasn't 200")
+		return errors.New("TsuruAPI - response status code isn't 200")
 	}
 
 	defer resp.Body.Close()
