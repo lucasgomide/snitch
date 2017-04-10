@@ -1,0 +1,17 @@
+language: go
+install: true
+go:
+  - 1.8.x
+  - 1.7.x
+  - 1.6.x
+  - master
+env:
+  global:
+    - GOARCH=amd64
+before_install:
+  - go get gopkg.in/jarcoal/httpmock.v1
+script:
+  - make test
+matrix:
+  allow_failures:
+    - go: master
