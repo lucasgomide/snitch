@@ -13,22 +13,17 @@ You must add this code into your file (`tsuru.yaml` or `tsuru.yml`) located in t
 
 ### From binary
 
-Download the latest release
-
-``` bash
-$ curl -sSL https://github.com/lucasgomide/snitch/releases/download/0.0.1/snitch-0.0.1-darwin_amd64.tar.gz \
-  | tar xz
-```
-
-Put into your tsuru app config
-
 ```yaml
 hooks:
   build:
-    - snitch -h hookName -url webHookURL
+    - curl -sSL https://github.com/lucasgomide/snitch/releases/download/0.1.0/snitch_0.1.0_linux_amd64.tar.gz | tar xz
+    - ./snitch_linux/snitch -h hookName -url webHookURL
 ```
 
 ## Hooks availabe
 
 [Slack](hook/slack.go)
 
+## Example
+
+[Snitch App Sample](https://github.com/lucasgomide/snitch-app-example)
