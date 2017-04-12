@@ -1,0 +1,13 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "Wx2FYL6OLgZ/9PF1nb+hhNoXcTo=",
+			"path": "gopkg.in/jarcoal/httpmock.v1",
+			"revision": "abbf1543e32e3d8a74ab639e37d9b097178a6924",
+			"revisionTime": "2017-03-21T07:58:17Z"
+		}
+	],
+	"rootPath": "github.com/lucasgomide/snitch"
+}
