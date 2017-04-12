@@ -8,11 +8,13 @@ import (
 	"github.com/lucasgomide/snitch/types"
 	"log"
 	"os"
+	"regexp"
 )
 
 var (
-	hookName   = flag.String("h", "", "Service that will provide the webhook. e.g: slack")
-	webHookURL = flag.String("url", "", "Webhook URL")
+	hookName        = flag.String("hook", "", "Service that will provide the webhook. e.g: slack")
+	webHookURL      = flag.String("hook-url", "", "Webhook URL")
+	appNameContains = flag.String("app-name-contains", "", "Execute webhook if the tsuru app name contains it")
 )
 
 func init() {
@@ -26,29 +28,34 @@ func main() {
 		err    error
 		deploy []snitch.Deploy
 	)
+	tsuruAppName := os.Getenv("TSURU_APP_NAME")
 
-	if err = validateParams(); err != nil {
-		log.Fatal(err)
-	}
+	if match, _ := regexp.MatchString(*appNameContains, tsuruAppName); !match && *appNameContains != "" {
+	} else {
 
-	switch *hookName {
-	case "slack":
-		h = &hook.Slack{}
-	default:
-		log.Fatal("The service " + *hookName + "wasn't implemented yet")
-	}
+		if err = validateParams(); err != nil {
+			log.Fatal(err)
+		}
 
-	h.SetWebHookURL(*webHookURL)
+		switch *hookName {
+		case "slack":
+			h = &hook.Slack{}
+		default:
+			log.Fatal("The service " + *hookName + "wasn't implemented yet")
+		}
 
-	t = tsuru.TsuruAPI{AppToken: os.Getenv("TSURU_APP_TOKEN"), ApiHost: os.Getenv("TSURU_HOST"), AppName: os.Getenv("TSURU_APP_NAME")}
+		h.SetWebHookURL(*webHookURL)
 
-	err = findLastDeploy(t, &deploy)
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = callHook(h, deploy)
-	if err != nil {
-		log.Fatal(err)
+		t = tsuru.TsuruAPI{AppToken: os.Getenv("TSURU_APP_TOKEN"), ApiHost: os.Getenv("TSURU_HOST"), AppName: tsuruAppName}
+
+		err = findLastDeploy(t, &deploy)
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = callHook(h, deploy)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 
@@ -62,9 +69,9 @@ func callHook(hook snitch.Hook, deploy []snitch.Deploy) error {
 
 func validateParams() error {
 	if *hookName == "" {
-		return errors.New("The option -h is required ")
+		return errors.New("The option -hook is required ")
 	} else if *webHookURL == "" {
-		return errors.New("The option -url is required")
+		return errors.New("The option -hook-url is required")
 	}
 	return nil
 }

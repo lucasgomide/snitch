@@ -1,4 +1,4 @@
-.PHONY: test-travis test
+.PHONY: test-travis test build
 
 test:
 	@go test `go list ./... | grep -v /vendor/`
