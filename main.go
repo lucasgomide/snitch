@@ -8,7 +8,7 @@ import (
 	"github.com/lucasgomide/snitch/types"
 	"log"
 	"os"
-	"regexp"
+	"strings"
 )
 
 var (
@@ -21,40 +21,50 @@ func init() {
 	flag.Parse()
 }
 
-func main() {
-	var (
-		h      snitch.Hook
-		t      snitch.Tsuru
-		err    error
-		deploy []snitch.Deploy
-	)
-	tsuruAppName := os.Getenv("TSURU_APP_NAME")
-
-	if match, _ := regexp.MatchString(*appNameContains, tsuruAppName); !match && *appNameContains != "" {
+func execute(h snitch.Hook, t snitch.Tsuru, deploy []snitch.Deploy) error {
+	var err error
+	if *appNameContains != "" && !strings.Contains(os.Getenv("TSURU_APP_NAME"), *appNameContains) {
+		return errors.New("Tsuru App Name does not match with " + *appNameContains)
 	} else {
-
-		if err = validateParams(); err != nil {
-			log.Fatal(err)
-		}
-
-		switch *hookName {
-		case "slack":
-			h = &hook.Slack{}
-		default:
-			log.Fatal("The service " + *hookName + "wasn't implemented yet")
-		}
-
 		h.SetWebHookURL(*webHookURL)
-
-		t = tsuru.TsuruAPI{AppToken: os.Getenv("TSURU_APP_TOKEN"), ApiHost: os.Getenv("TSURU_HOST"), AppName: tsuruAppName}
 
 		err = findLastDeploy(t, &deploy)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 		err = callHook(h, deploy)
 		if err != nil {
-			log.Fatal(err)
+			return err
+		}
+		return nil
+	}
+}
+
+func main() {
+	var (
+		h           snitch.Hook
+		t           snitch.Tsuru
+		err         error
+		deploy      []snitch.Deploy
+		hookDefined = false
+	)
+
+	if err = validateParams(); err != nil {
+		printError(err.Error())
+	} else {
+		switch *hookName {
+		case "slack":
+			h = &hook.Slack{}
+			hookDefined = true
+		default:
+			printError("The service " + *hookName + " wasn't implemented yet")
+		}
+		if hookDefined {
+			t = tsuru.TsuruAPI{AppToken: os.Getenv("TSURU_APP_TOKEN"), ApiHost: os.Getenv("TSURU_HOST"), AppName: os.Getenv("TSURU_APP_NAME")}
+
+			if err := execute(h, t, deploy); err != nil {
+				printError(err.Error())
+			}
 		}
 	}
 }
@@ -69,9 +79,13 @@ func callHook(hook snitch.Hook, deploy []snitch.Deploy) error {
 
 func validateParams() error {
 	if *hookName == "" {
-		return errors.New("The option -hook is required ")
+		return errors.New("The option -hook is required")
 	} else if *webHookURL == "" {
 		return errors.New("The option -hook-url is required")
 	}
 	return nil
+}
+
+func printError(text string) {
+	log.Printf(">> Snitch: %s", text)
 }
