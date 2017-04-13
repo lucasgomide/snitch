@@ -23,8 +23,8 @@ func init() {
 
 func execute(h snitch.Hook, t snitch.Tsuru, deploy []snitch.Deploy) error {
 	var err error
-	if *appNameContains != "" && !strings.Contains(os.Getenv("TSURU_APP_NAME"), *appNameContains) {
-		return errors.New("Tsuru App Name does not match with " + *appNameContains)
+	if *appNameContains != "" && !strings.Contains(os.Getenv("TSURU_APPNAME"), *appNameContains) {
+		return errors.New("Tsuru App Name does not contains " + *appNameContains)
 	} else {
 		h.SetWebHookURL(*webHookURL)
 

@@ -40,7 +40,7 @@ func (t TsuruFake) FindLastDeploy(deploy *[]snitch.Deploy) error {
 func setUpSuite() {
 	os.Setenv("TSURU_APP_TOKEN", "abc123")
 	os.Setenv("TSURU_HOST", "http://0.0.0.0")
-	os.Setenv("TSURU_APP_NAME", "someapp-name")
+	os.Setenv("TSURU_APPNAME", "someapp-name")
 }
 
 func tearDownSuite() {
@@ -84,7 +84,7 @@ func TestReturnsErrorWhenAppNameDoesNotContainsSomething(t *testing.T) {
 		deploy []snitch.Deploy
 	)
 
-	wanted := "Tsuru App Name does not match with " + appContains
+	wanted := "Tsuru App Name does not contains " + appContains
 	err = execute(h, tsuru, deploy)
 
 	if err == nil {
