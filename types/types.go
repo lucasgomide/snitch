@@ -1,5 +1,7 @@
 package snitch
 
+import "time"
+
 type Hook interface {
 	CallHook(deploy []Deploy) error
 	SetWebHookURL(url string)
@@ -14,4 +16,9 @@ type Deploy struct {
 	Timestamp string
 	Commit    string
 	User      string
+}
+
+func (d Deploy) ConvertTimestampToRFC822() string {
+	t, _ := time.Parse(time.RFC3339, d.Timestamp)
+	return t.Format(time.RFC822)
 }
