@@ -10,8 +10,7 @@ env:
     - GOARCH=amd64
     - COVERALLS_TOKEN=wyZjjcuWXLplM6dMfMfNLCphJBWgTtGNK
 before_install:
-  - go get gopkg.in/jarcoal/httpmock.v1
-  - go get golang.org/x/tools/cmd/cover
+  - go get ./...
   - go get github.com/modocache/gover
   - go get github.com/mattn/goveralls
 script:
