@@ -15,7 +15,7 @@ type TsuruAPI struct {
 	ApiHost  string
 }
 
-func (t TsuruAPI) FindLastDeploy(deploy *[]snitch.Deploy) error {
+func (t TsuruAPI) FindLastDeploy(deploy *[]types.Deploy) error {
 	httpClient := &http.Client{
 		Timeout: time.Second * 10,
 	}

@@ -21,7 +21,7 @@ func TestRetunsLastDeployAsJSON(t *testing.T) {
 	httpmock.RegisterResponder("GET", url,
 		httpmock.NewStringResponder(200, `[{"App":"app-test","Timestamp":"2017-04-05T15:21:10.556-03:00","User":"douglas.adams@42.com","Origin":"git"}]`))
 
-	var deploy []snitch.Deploy
+	var deploy []types.Deploy
 	tsuru := TsuruAPI{AppToken: apiToken, AppName: appName, ApiHost: apiHost}
 
 	err = tsuru.FindLastDeploy(&deploy)
@@ -40,7 +40,7 @@ func TestReturnsErrorWhenRequestFails(t *testing.T) {
 
 	httpmock.RegisterNoResponder(nil)
 
-	var deploy []snitch.Deploy
+	var deploy []types.Deploy
 	tsuru := TsuruAPI{AppToken: apiToken, AppName: appName, ApiHost: apiHost}
 
 	err = tsuru.FindLastDeploy(&deploy)
@@ -61,7 +61,7 @@ func TestReturnsErrorWhenResponseStatusCodeIsnt200(t *testing.T) {
 	httpmock.RegisterResponder("GET", url,
 		httpmock.NewStringResponder(503, `ok`))
 
-	var deploy []snitch.Deploy
+	var deploy []types.Deploy
 	tsuru := TsuruAPI{AppToken: apiToken, AppName: appName, ApiHost: apiHost}
 
 	err = tsuru.FindLastDeploy(&deploy)

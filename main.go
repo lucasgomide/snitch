@@ -1,91 +1,53 @@
 package main
 
 import (
-	"errors"
 	"flag"
+	"github.com/lucasgomide/snitch/config"
 	"github.com/lucasgomide/snitch/hook"
 	"github.com/lucasgomide/snitch/tsuru"
 	"github.com/lucasgomide/snitch/types"
-	"log"
+	"github.com/lucasgomide/snitch/utils"
 	"os"
 	"strings"
 )
 
 var (
-	hookName        = flag.String("hook", "", "Service that will provide the webhook. e.g: slack")
-	webHookURL      = flag.String("hook-url", "", "Webhook URL")
 	appNameContains = flag.String("app-name-contains", "", "Execute webhook if the tsuru app name contains it")
+	configFilePath  = flag.String("c", "", "File path of snitch config")
 )
 
 func init() {
 	flag.Parse()
 }
 
-func execute(h snitch.Hook, t snitch.Tsuru, deploy []snitch.Deploy) error {
-	var err error
-	if *appNameContains != "" && !strings.Contains(os.Getenv("TSURU_APPNAME"), *appNameContains) {
-		return errors.New("Tsuru App Name does not contains " + *appNameContains)
-	} else {
-		h.SetWebHookURL(*webHookURL)
-
-		err = findLastDeploy(t, &deploy)
-		if err != nil {
-			return err
-		}
-		err = callHook(h, deploy)
-		if err != nil {
-			return err
-		}
-		return nil
-	}
-}
-
 func main() {
-	var (
-		h           snitch.Hook
-		t           snitch.Tsuru
-		err         error
-		deploy      []snitch.Deploy
-		hookDefined = false
-	)
-
-	if err = validateParams(); err != nil {
-		printError(err.Error())
+	if *configFilePath == "" {
+		utils.LogError("Flag -c is required")
 	} else {
-		switch *hookName {
-		case "slack":
-			h = &hook.Slack{}
-			hookDefined = true
-		default:
-			printError("The service " + *hookName + " wasn't implemented yet")
-		}
-		if hookDefined {
-			t = tsuru.TsuruAPI{AppToken: os.Getenv("TSURU_APP_TOKEN"), ApiHost: os.Getenv("TSURU_HOST"), AppName: os.Getenv("TSURU_APP_NAME")}
-
-			if err := execute(h, t, deploy); err != nil {
-				printError(err.Error())
-			}
+		if *appNameContains != "" && !strings.Contains(os.Getenv("TSURU_APP_TOKEN"), *appNameContains) {
+			utils.LogError("Tsuru App Name does not contains " + *appNameContains)
+		} else {
+			run()
 		}
 	}
 }
 
-func findLastDeploy(t snitch.Tsuru, deploy *[]snitch.Deploy) error {
-	return t.FindLastDeploy(deploy)
-}
+func run() {
+	err := config.ReadConfigFile(*configFilePath)
+	if err != nil {
+		utils.LogError(err.Error())
+	} else {
+		var (
+			h types.Hook
+			t types.Tsuru
+		)
 
-func callHook(hook snitch.Hook, deploy []snitch.Deploy) error {
-	return hook.CallHook(deploy)
-}
+		t = tsuru.TsuruAPI{
+			AppToken: os.Getenv("TSURU_APP_TOKEN"),
+			ApiHost:  os.Getenv("TSURU_HOST"),
+			AppName:  os.Getenv("TSURU_APP_NAME"),
+		}
 
-func validateParams() error {
-	if *hookName == "" {
-		return errors.New("The option -hook is required")
-	} else if *webHookURL == "" {
-		return errors.New("The option -hook-url is required")
+		hook.Execute(h, t)
 	}
-	return nil
-}
-
-func printError(text string) {
-	log.Printf(">> Snitch: %s", text)
 }

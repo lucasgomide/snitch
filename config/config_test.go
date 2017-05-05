@@ -12,14 +12,14 @@ func TestFileDoesntOpen(t *testing.T) {
 }
 
 func TestReadTheFileSuccess(t *testing.T) {
-	err := ReadConfigFile("../testdata/snitch_config.yaml")
+	err := ReadConfigFile("../testdata/config.yaml")
 	if err != nil {
 		t.Error(err)
 	}
 }
 
 func TestSetDataUnmarshalIntoConfigs(t *testing.T) {
-	err := ReadConfigFile("../testdata/snitch_config.yaml")
+	err := ReadConfigFile("../testdata/config.yaml")
 	if err != nil {
 		t.Error(err)
 	}

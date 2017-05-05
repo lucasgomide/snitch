@@ -1,10 +1,9 @@
-package snitch
+package types
 
 import "time"
 
 type Hook interface {
 	CallHook(deploy []Deploy) error
-	SetWebHookURL(url string)
 }
 
 type Tsuru interface {

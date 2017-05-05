@@ -8,14 +8,14 @@ import (
 )
 
 type Slack struct {
-	WebhookURL string
+	WebhookUrl string
 }
 
-func (s *Slack) CallHook(deploy []snitch.Deploy) error {
+func (s Slack) CallHook(deploy []types.Deploy) error {
 	message := `"The application *` + deploy[0].App + `* has been deployed just now by ` + deploy[0].User + ` at _` + deploy[0].ConvertTimestampToRFC822() + `_"`
 
 	data := []byte(`{"text":` + message + `}`)
-	resp, err := http.Post(s.WebhookURL, "application/json", bytes.NewReader(data))
+	resp, err := http.Post(s.WebhookUrl, "application/json", bytes.NewReader(data))
 	if err != nil {
 		return err
 	}
@@ -24,8 +24,4 @@ func (s *Slack) CallHook(deploy []snitch.Deploy) error {
 		return errors.New("Slack - response status code isn't 200")
 	}
 	return nil
-}
-
-func (s *Slack) SetWebHookURL(url string) {
-	s.WebhookURL = url
 }
