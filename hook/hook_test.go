@@ -37,6 +37,10 @@ func (h HookFake) CallHook(deploy []types.Deploy) error {
 	return nil
 }
 
+func (h HookFake) ValidatesFields() error {
+	return nil
+}
+
 func (t TsuruFake) FindLastDeploy(deploy *[]types.Deploy) error {
 	if t.Err != nil {
 		return t.Err

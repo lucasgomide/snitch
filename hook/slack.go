@@ -25,3 +25,7 @@ func (s Slack) CallHook(deploy []types.Deploy) error {
 	}
 	return nil
 }
+
+func (s Slack) ValidatesFields() error {
+	return nil
+}

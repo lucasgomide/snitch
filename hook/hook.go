@@ -36,8 +36,12 @@ func findLastDeploy(t types.Tsuru, deploy *[]types.Deploy) error {
 	return t.FindLastDeploy(deploy)
 }
 
-func callHook(hook types.Hook, deploy []types.Deploy) error {
-	return hook.CallHook(deploy)
+func callHook(h types.Hook, deploy []types.Deploy) error {
+	if err := h.ValidatesFields(); err == nil {
+		return h.CallHook(deploy)
+	} else {
+		return err
+	}
 }
 
 func ExecuteHook(h types.Hook, deploy []types.Deploy, conf interface{}) error {

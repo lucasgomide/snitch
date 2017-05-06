@@ -4,6 +4,7 @@ import "time"
 
 type Hook interface {
 	CallHook(deploy []Deploy) error
+	ValidatesFields() error
 }
 
 type Tsuru interface {
