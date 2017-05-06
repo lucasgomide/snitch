@@ -103,7 +103,7 @@ func TestShouldExecuteHooksFromConfig(t *testing.T) {
 	msg := buf.String()
 
 	if msg != "" {
-		t.Error(err)
+		t.Error("Expected that msg is not empty, got empty msg")
 	}
 }
 
@@ -126,7 +126,7 @@ func TestShouldLogErrorByHooks(t *testing.T) {
 	msg := buf.String()
 
 	if msg == "" {
-		t.Error(err)
+		t.Error("Expected msg is empty, got", msg)
 	}
 }
 
