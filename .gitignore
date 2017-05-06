@@ -3,6 +3,7 @@
 *.a
 *.so
 *.coverprofile
+profile.out
 # Folders
 _obj
 _test

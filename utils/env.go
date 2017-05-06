@@ -17,5 +17,4 @@ func GetEnv(s string) string {
 			return env
 		}
 	}
-	return s
 }
