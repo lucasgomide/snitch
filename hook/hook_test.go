@@ -7,6 +7,7 @@ import (
 	"github.com/lucasgomide/snitch/types"
 	"gopkg.in/jarcoal/httpmock.v1"
 	"log"
+	"os"
 	"strings"
 	"testing"
 )
@@ -63,6 +64,18 @@ func TestReturnsErrorWhenCallHookFail(t *testing.T) {
 		t.Error("Expected error, got nil")
 	} else if err.Error() != expected {
 		t.Error("Expected error: " + expected + ", got " + err.Error())
+	}
+	h.Err = nil
+}
+
+func TestSetFieldsWithEnvValues(t *testing.T) {
+	os.Setenv("NEW_ENV", "gotham")
+	if err = ExecuteHook(&h, d, map[interface{}]interface{}{"field_sample": "$NEW_ENV"}); err != nil {
+		t.Error(err)
+	}
+
+	if h.FieldSample != "gotham" {
+		t.Error("Expected: FieldSample equal to gotham, got", h.FieldSample)
 	}
 }
 
@@ -129,4 +142,5 @@ func TestReturnsErrorWhenFindLastDeployFail(t *testing.T) {
 	} else if !strings.Contains(msg, expected) {
 		t.Error("Expected error: " + expected + ", got " + err.Error())
 	}
+	tsuruFake.Err = nil
 }

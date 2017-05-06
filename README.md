@@ -10,10 +10,16 @@ This program will notify your team when someone has deployed any application via
 
 First one, you have to create a hook's configuration file. This file describe wich hook will be dispatched and the your configurations (e.g webhook_url).
 
-You can add this code into your file:
+You can add this code into your file, hardcode mode:
 ```yaml
 slack:
   webhook_url: http://your.webhook.here
+```
+
+or using environment variable:
+```yaml
+slack:
+  webhook_url: $SLACK_WEBHOOK_URL
 ```
 
 So now, You must add this code into your file (`tsuru.yaml` or `tsuru.yml`) located in the root of the application [at hook's section](https://docs.tsuru.io/stable/using/tsuru.yaml.html)

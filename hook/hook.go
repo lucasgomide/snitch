@@ -50,7 +50,7 @@ func ExecuteHook(h types.Hook, deploy []types.Deploy, conf interface{}) error {
 		}
 		value := s.FieldByName(valueBuffer.String())
 		if value.IsValid() && value.CanAddr() {
-			value.SetString(v.(string))
+			value.SetString(utils.GetEnv(v.(string)))
 		}
 	}
 
