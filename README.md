@@ -54,7 +54,11 @@ Here is all avaliables hook's configurations and your descriptions. Remember tha
   - **host** Tell to snith your sentry host (e.g http://sentry.io or http://sentry.self.hosted)
   - **organization_slug** The organization slug is a unique ID used to identify your organization. (You'll find it at your sentry's configuration, probably)
   - **project_slug** The Project Slug is a unique ID used to identify your project (You'll find it at your project config)
-  - **auth_token** The Auth Token to use the Sentry Web API. You can find [here](https://docs.sentry.io/api/auth/#auth-tokens)
+  - **auth_token** The Auth Token to use the Sentry Web API. You can find more [here](https://docs.sentry.io/api/auth/#auth-tokens)
+  - **env** The application's environment variable (e.g development, production)
+
+- Rollbar
+  - **access_token** The access token with `post_server_item` scope. You can find more [here](https://rollbar.com/docs/api/#authentication)
   - **env** The application's environment variable (e.g development, production)
 
 ## Example

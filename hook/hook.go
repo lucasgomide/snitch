@@ -24,6 +24,8 @@ func Execute(h types.Hook, t types.Tsuru) {
 				h = &Slack{}
 			case "Sentry":
 				h = &Sentry{}
+			case "Rollbar":
+				h = &Rollbar{}
 			default:
 				continue
 			}
