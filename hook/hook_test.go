@@ -17,7 +17,7 @@ var (
 	tsuruFake      TsuruFake
 	err            error
 	configFilePath = "../testdata/config.yaml"
-	d              = []types.Deploy{types.Deploy{"app", "1234125125", "sha1", "user@42.com"}}
+	d              = []types.Deploy{types.Deploy{"app", "1234125125", "sha1", "user@42.com", "v15"}}
 	conf           = map[interface{}]interface{}{"field_sample": "key_value"}
 )
 
@@ -45,7 +45,7 @@ func (t TsuruFake) FindLastDeploy(deploy *[]types.Deploy) error {
 	if t.Err != nil {
 		return t.Err
 	}
-	*deploy = append(*deploy, types.Deploy{"app", "1234125125", "sha1", "user@42.com"})
+	*deploy = append(*deploy, types.Deploy{"app", "1234125125", "sha1", "user@42.com", "v15"})
 	return nil
 }
 

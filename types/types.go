@@ -16,6 +16,7 @@ type Deploy struct {
 	Timestamp string
 	Commit    string
 	User      string
+	Image     string
 }
 
 func (d Deploy) ConvertTimestampToRFC822() string {

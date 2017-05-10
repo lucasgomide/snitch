@@ -22,6 +22,8 @@ func Execute(h types.Hook, t types.Tsuru) {
 			switch strings.Title(hookName.(string)) {
 			case "Slack":
 				h = &Slack{}
+			case "Sentry":
+				h = &Sentry{}
 			default:
 				continue
 			}
