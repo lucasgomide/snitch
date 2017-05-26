@@ -14,7 +14,7 @@ import (
 func setUpSuite() {
 	os.Setenv("TSURU_APP_TOKEN", "abc123")
 	os.Setenv("TSURU_HOST", "http://0.0.0.0")
-	os.Setenv("TSURU_APPNAME", "someapp-name")
+	os.Setenv("TSURU_APPNAME", "someapp-name-prd")
 	flag.Set("c", "testdata/config_fake_hook.yaml")
 	httpmock.Activate()
 	httpmock.RegisterResponder("GET", "http://0.0.0.0/deploys?app=&limit=1",
@@ -25,6 +25,7 @@ func tearDownSuite() {
 	defer httpmock.DeactivateAndReset()
 	os.Unsetenv("TSURU_TARGET")
 	os.Unsetenv("TSURU_TOKEN")
+	os.Unsetenv("TSURU_APPNAME")
 	flag.Set("app-name-contains", "")
 }
 
@@ -75,5 +76,25 @@ func TestReturnsErrorWhenAppNameDoesNotContainsSomething(t *testing.T) {
 
 	if !strings.Contains(msg, expected) {
 		t.Errorf("%#v, wanted %#v", msg, expected)
+	}
+}
+
+func TestRunHookExecuteWithAppNameContainsFlagFilled(t *testing.T) {
+	setUpSuite()
+	httpmock.RegisterResponder("GET", "http://0.0.0.0/deploys?app="+os.Getenv("TSURU_APPNAME")+"&limit=1",
+		httpmock.NewStringResponder(200, `[{}]`))
+	defer tearDownSuite()
+	appContains := "prd"
+	flag.Set("app-name-contains", appContains)
+
+	noExpected := "Tsuru App Name does not contains " + appContains
+	var buf bytes.Buffer
+	log.SetOutput(&buf)
+
+	main()
+	msg := buf.String()
+
+	if strings.Contains(msg, noExpected) {
+		t.Errorf("Expected no error, got %#v", noExpected)
 	}
 }

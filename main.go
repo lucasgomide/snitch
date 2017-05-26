@@ -24,7 +24,7 @@ func main() {
 	if *configFilePath == "" {
 		utils.LogError("Flag -c is required")
 	} else {
-		if *appNameContains != "" && !strings.Contains(os.Getenv("TSURU_APP_TOKEN"), *appNameContains) {
+		if *appNameContains != "" && !strings.Contains(os.Getenv("TSURU_APPNAME"), *appNameContains) {
 			utils.LogError("Tsuru App Name does not contains " + *appNameContains)
 		} else {
 			run()
@@ -45,7 +45,7 @@ func run() {
 		t = tsuru.TsuruAPI{
 			AppToken: os.Getenv("TSURU_APP_TOKEN"),
 			ApiHost:  os.Getenv("TSURU_HOST"),
-			AppName:  os.Getenv("TSURU_APP_NAME"),
+			AppName:  os.Getenv("TSURU_APPNAME"),
 		}
 
 		hook.Execute(h, t)
