@@ -51,7 +51,7 @@ Here is all avaliables hook's configurations and your descriptions. Remember tha
   - **webhook_url** Indicates the Webhook URL to dispatch messages to Slack.
 
 - Sentry
-  - **host** Tell to snith your sentry host (e.g http://sentry.io or http://sentry.self.hosted)
+  - **host** Tell to Snitch your sentry host (e.g http://sentry.io or http://sentry.self.hosted)
   - **organization_slug** The organization slug is a unique ID used to identify your organization. (You'll find it at your sentry's configuration, probably)
   - **project_slug** The Project Slug is a unique ID used to identify your project (You'll find it at your project config)
   - **auth_token** The Auth Token to use the Sentry Web API. You can find more [here](https://docs.sentry.io/api/auth/#auth-tokens)
@@ -60,6 +60,12 @@ Here is all avaliables hook's configurations and your descriptions. Remember tha
 - Rollbar
   - **access_token** The access token with `post_server_item` scope. You can find more [here](https://rollbar.com/docs/api/#authentication)
   - **env** The application's environment variable (e.g development, production)
+
+- NewRelic
+  - **host** Tell to Snitch your NewRelic API host (e.g https://api.newrelic.com)
+  - **application_id** The application ID is a unique ID used to identify your application in APM. (You'll find it at the end of the application's page URL)
+  - **api_key** The API Key to use the NewRelic REST API. You can find more [here](https://docs.newrelic.com/docs/apis/rest-api-v2/getting-started/api-keys)
+  - **revision** The application's current revision (e.g 0.0.1r42)
 
 ## Example
 

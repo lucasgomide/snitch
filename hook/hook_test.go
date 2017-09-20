@@ -90,6 +90,17 @@ func TestShouldExecuteHooksFromConfig(t *testing.T) {
 	httpmock.RegisterResponder("POST", "http://dummy.sample",
 		httpmock.NewStringResponder(200, `ok`))
 
+	httpmock.RegisterResponder("POST", "https://api.rollbar.com/api/1/deploy/",
+		httpmock.NewStringResponder(200, `ok`))
+
+	httpmock.RegisterResponder("POST", "http://sentry.com/api/0/projects/the-answer/for-everything/releases/",
+		httpmock.NewStringResponder(201, `ok`))
+	httpmock.RegisterResponder("POST", "http://sentry.com/api/0/organizations/the-answer/releases/for-everything-v15/deploys/",
+		httpmock.NewStringResponder(201, `ok`))
+
+	httpmock.RegisterResponder("POST", "https://api.newrelic.com/v2/applications/01234/deployments.json",
+		httpmock.NewStringResponder(201, `ok`))
+
 	err = config.ReadConfigFile(configFilePath)
 	if err != nil {
 		t.Error(err)
