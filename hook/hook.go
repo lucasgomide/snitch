@@ -26,6 +26,8 @@ func Execute(h types.Hook, t types.Tsuru) {
 				h = &Sentry{}
 			case "Rollbar":
 				h = &Rollbar{}
+			case "Newrelic":
+				h = &NewRelic{}
 			default:
 				continue
 			}

@@ -2,3 +2,18 @@ slack:
   webhook_url: http://dummy.sample
 missing_hook:
   field: value
+rollbar:
+  access_token: abc123
+  env: test
+sentry:
+  host: http://sentry.com
+  organization_slug: the-answer
+  project_slug: for-everything
+  auth_token: abc123
+  env: test
+  release_version: 0.0.1
+newrelic:
+  host: https://api.newrelic.com
+  application_id: "01234"
+  api_key: 0a0b11223344
+  revision: 0.0.1
