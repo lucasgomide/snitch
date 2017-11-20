@@ -1,15 +1,16 @@
 package tsuru
 
 import (
+	"testing"
+
 	"github.com/lucasgomide/snitch/types"
 	"gopkg.in/jarcoal/httpmock.v1"
-	"testing"
 )
 
 var (
 	err      error
-	apiHost  = "http://10.0.0.0"
-	url      = apiHost + "/deploys?app=" + appName + "&limit=1"
+	host     = "http://10.0.0.0"
+	url      = host + "/deploys?app=" + appName + "&limit=1"
 	appName  = "app-name"
 	apiToken = "abc12"
 )
@@ -22,7 +23,7 @@ func TestRetunsLastDeployAsJSON(t *testing.T) {
 		httpmock.NewStringResponder(200, `[{"App":"app-test","Timestamp":"2017-04-05T15:21:10.556-03:00","User":"douglas.adams@42.com","Origin":"git"}]`))
 
 	var deploy []types.Deploy
-	tsuru := TsuruAPI{AppToken: apiToken, AppName: appName, ApiHost: apiHost}
+	tsuru := TsuruAPI{AppToken: apiToken, AppName: appName, Host: host}
 
 	err = tsuru.FindLastDeploy(&deploy)
 	if err != nil {
@@ -41,7 +42,7 @@ func TestReturnsErrorWhenRequestFails(t *testing.T) {
 	httpmock.RegisterNoResponder(nil)
 
 	var deploy []types.Deploy
-	tsuru := TsuruAPI{AppToken: apiToken, AppName: appName, ApiHost: apiHost}
+	tsuru := TsuruAPI{AppToken: apiToken, AppName: appName, Host: host}
 
 	err = tsuru.FindLastDeploy(&deploy)
 
@@ -62,7 +63,7 @@ func TestReturnsErrorWhenResponseStatusCodeIsnt200(t *testing.T) {
 		httpmock.NewStringResponder(503, `ok`))
 
 	var deploy []types.Deploy
-	tsuru := TsuruAPI{AppToken: apiToken, AppName: appName, ApiHost: apiHost}
+	tsuru := TsuruAPI{AppToken: apiToken, AppName: appName, Host: host}
 
 	err = tsuru.FindLastDeploy(&deploy)
 

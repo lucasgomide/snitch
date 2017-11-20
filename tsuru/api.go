@@ -3,24 +3,27 @@ package tsuru
 import (
 	"encoding/json"
 	"errors"
-	"github.com/lucasgomide/snitch/types"
 	"io/ioutil"
 	"net/http"
 	"time"
+
+	"github.com/lucasgomide/snitch/types"
 )
 
 type TsuruAPI struct {
 	AppToken string
 	AppName  string
-	ApiHost  string
+	Host     string
 }
 
+// FindLastDeploy fetch the last app deploy and writes to deploy
+// It returns any errors encountered
 func (t TsuruAPI) FindLastDeploy(deploy *[]types.Deploy) error {
 	httpClient := &http.Client{
 		Timeout: time.Second * 10,
 	}
 
-	req, err := http.NewRequest("GET", t.ApiHost+"/deploys?app="+t.AppName+"&limit=1", nil)
+	req, err := http.NewRequest("GET", t.Host+"/deploys?app="+t.AppName+"&limit=1", nil)
 	if err != nil {
 		return err
 	}
