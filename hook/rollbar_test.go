@@ -1,10 +1,11 @@
 package hook
 
 import (
-	"github.com/lucasgomide/snitch/types"
-	"gopkg.in/jarcoal/httpmock.v1"
 	"strings"
 	"testing"
+
+	"github.com/lucasgomide/snitch/types"
+	"gopkg.in/jarcoal/httpmock.v1"
 )
 
 func TestCreateDeploySuccessfulOnRollbar(t *testing.T) {
@@ -12,7 +13,7 @@ func TestCreateDeploySuccessfulOnRollbar(t *testing.T) {
 
 	var (
 		deploys       []types.Deploy
-		urlRollbarApi = "https://api.rollbar.com/api/1/deploy/"
+		urlRollbarAPI = "https://api.rollbar.com/api/1/deploy/"
 	)
 
 	deploys = append(deploys, types.Deploy{"", "", "sha1", "user@g.com", ""})
@@ -20,7 +21,7 @@ func TestCreateDeploySuccessfulOnRollbar(t *testing.T) {
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("POST", urlRollbarApi,
+	httpmock.RegisterResponder("POST", urlRollbarAPI,
 		httpmock.NewStringResponder(200, `ok`))
 
 	if err := r.CallHook(deploys); err != nil {
@@ -49,14 +50,14 @@ func TestReturnsErrorWhenRequestToCreateDeployIsnt200OnRollbar(t *testing.T) {
 	r := Rollbar{"abc123", "development"}
 	var (
 		deploys       []types.Deploy
-		urlRollbarApi = "https://api.rollbar.com/api/1/deploy/"
+		urlRollbarAPI = "https://api.rollbar.com/api/1/deploy/"
 	)
 	deploys = append(deploys, types.Deploy{"", "", "sha1", "user@g.com", ""})
 
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	httpmock.RegisterResponder("POST", urlRollbarApi,
+	httpmock.RegisterResponder("POST", urlRollbarAPI,
 		httpmock.NewStringResponder(501, `error`))
 	expected := "Rollbar - response status code isn't 200"
 	if err := r.CallHook(deploys); err == nil {

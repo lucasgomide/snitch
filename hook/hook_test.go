@@ -3,13 +3,14 @@ package hook
 import (
 	"bytes"
 	"errors"
-	"github.com/lucasgomide/snitch/config"
-	"github.com/lucasgomide/snitch/types"
-	"gopkg.in/jarcoal/httpmock.v1"
 	"log"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/lucasgomide/snitch/config"
+	"github.com/lucasgomide/snitch/types"
+	"gopkg.in/jarcoal/httpmock.v1"
 )
 
 var (
@@ -17,7 +18,7 @@ var (
 	tsuruFake      TsuruFake
 	err            error
 	configFilePath = "../testdata/config.yaml"
-	d              = []types.Deploy{types.Deploy{"app", "1234125125", "sha1", "user@42.com", "v15"}}
+	d              = []types.Deploy{{"app", "1234125125", "sha1", "user@42.com", "v15"}}
 	conf           = map[interface{}]interface{}{"field_sample": "key_value"}
 )
 
@@ -50,7 +51,7 @@ func (t TsuruFake) FindLastDeploy(deploy *[]types.Deploy) error {
 }
 
 func TestHookExecutedSuccessfully(t *testing.T) {
-	if err = ExecuteHook(&h, d, conf); err != nil {
+	if err = executeHook(&h, d, conf); err != nil {
 		t.Error(err)
 	}
 
@@ -62,7 +63,7 @@ func TestHookExecutedSuccessfully(t *testing.T) {
 func TestReturnsErrorWhenCallHookFail(t *testing.T) {
 	expected := "CallHook has failed"
 	h.Err = errors.New(expected)
-	err = ExecuteHook(&h, d, conf)
+	err = executeHook(&h, d, conf)
 
 	if err == nil {
 		t.Error("Expected error, got nil")
@@ -74,7 +75,7 @@ func TestReturnsErrorWhenCallHookFail(t *testing.T) {
 
 func TestSetFieldsWithEnvValues(t *testing.T) {
 	os.Setenv("NEW_ENV", "gotham")
-	if err = ExecuteHook(&h, d, map[interface{}]interface{}{"field_sample": "$NEW_ENV"}); err != nil {
+	if err = executeHook(&h, d, map[interface{}]interface{}{"field_sample": "$NEW_ENV"}); err != nil {
 		t.Error(err)
 	}
 

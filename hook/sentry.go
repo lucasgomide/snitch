@@ -3,11 +3,14 @@ package hook
 import (
 	"bytes"
 	"errors"
-	"github.com/lucasgomide/snitch/types"
 	"net/http"
 	"time"
+
+	"github.com/lucasgomide/snitch/types"
 )
 
+// Sentry represents a single struct to notify Sentry
+// about a new deploy
 type Sentry struct {
 	Host             string
 	OrganizationSlug string
@@ -17,6 +20,8 @@ type Sentry struct {
 	ReleaseVersion   string
 }
 
+// CallHook creates a new release and deploy on Sentry
+// It returns any errors encountered
 func (s Sentry) CallHook(deploys []types.Deploy) error {
 	httpClient := &http.Client{
 		Timeout: time.Second * 10,
@@ -24,10 +29,7 @@ func (s Sentry) CallHook(deploys []types.Deploy) error {
 	if err := s.createRelease(httpClient, deploys[0]); err != nil {
 		return err
 	}
-	if err := s.createDeploy(httpClient); err != nil {
-		return err
-	}
-	return nil
+	return s.createDeploy(httpClient)
 }
 
 func (s *Sentry) createRelease(httpClient *http.Client, deploy types.Deploy) error {
@@ -76,6 +78,9 @@ func (s Sentry) createDeploy(httpClient *http.Client) error {
 	return nil
 }
 
+// ValidatesFields checks if there are some field on Sentry struct invalid
+// It returns an error if there are some invalid field
+// and if there are no, returns nil
 func (s Sentry) ValidatesFields() error {
 	if s.Host == "" {
 		return errors.New("Field host into Sentry hook is required")

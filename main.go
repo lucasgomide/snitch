@@ -2,13 +2,14 @@ package main
 
 import (
 	"flag"
+	"os"
+	"strings"
+
 	"github.com/lucasgomide/snitch/config"
 	"github.com/lucasgomide/snitch/hook"
 	"github.com/lucasgomide/snitch/tsuru"
 	"github.com/lucasgomide/snitch/types"
 	"github.com/lucasgomide/snitch/utils"
-	"os"
-	"strings"
 )
 
 var (
@@ -44,7 +45,7 @@ func run() {
 
 		t = tsuru.TsuruAPI{
 			AppToken: os.Getenv("TSURU_APP_TOKEN"),
-			ApiHost:  os.Getenv("TSURU_HOST"),
+			Host:     os.Getenv("TSURU_HOST"),
 			AppName:  os.Getenv("TSURU_APPNAME"),
 		}
 

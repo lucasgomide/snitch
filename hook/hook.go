@@ -2,13 +2,16 @@ package hook
 
 import (
 	"bytes"
+	"reflect"
+	"strings"
+
 	"github.com/lucasgomide/snitch/config"
 	"github.com/lucasgomide/snitch/types"
 	"github.com/lucasgomide/snitch/utils"
-	"reflect"
-	"strings"
 )
 
+// Execute runs all hooks that have been configured on
+// config file with your options
 func Execute(h types.Hook, t types.Tsuru) {
 	var err error
 
@@ -31,7 +34,7 @@ func Execute(h types.Hook, t types.Tsuru) {
 			default:
 				continue
 			}
-			if err := ExecuteHook(h, deploy, conf); err != nil {
+			if err := executeHook(h, deploy, conf); err != nil {
 				utils.LogError(err.Error())
 			}
 		}
@@ -43,14 +46,14 @@ func findLastDeploy(t types.Tsuru, deploy *[]types.Deploy) error {
 }
 
 func callHook(h types.Hook, deploy []types.Deploy) error {
-	if err := h.ValidatesFields(); err == nil {
+	err := h.ValidatesFields()
+	if err == nil {
 		return h.CallHook(deploy)
-	} else {
-		return err
 	}
+	return err
 }
 
-func ExecuteHook(h types.Hook, deploy []types.Deploy, conf interface{}) error {
+func executeHook(h types.Hook, deploy []types.Deploy, conf interface{}) error {
 	s := reflect.ValueOf(h).Elem()
 
 	for k, v := range conf.(map[interface{}]interface{}) {

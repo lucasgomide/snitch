@@ -1,6 +1,7 @@
 # Snitch
 [![Build Status](https://travis-ci.org/lucasgomide/snitch.svg?branch=master)](https://travis-ci.org/lucasgomide/snitch)
 [![Coverage Status](https://coveralls.io/repos/github/lucasgomide/snitch/badge.svg?branch=master)](https://coveralls.io/github/lucasgomide/snitch?branch=master)
+[![Documentation](https://godoc.org/github.com/lucasgomide/snitch?status.svg)](http://godoc.org/github.com/lucasgomide/snitch)
 
 Keep updated about each deploy via [Tsuru](https://docs.tsuru.io/stable/).
 

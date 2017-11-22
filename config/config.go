@@ -1,8 +1,9 @@
 package config
 
 import (
-	yaml "gopkg.in/yaml.v2"
 	"io/ioutil"
+
+	yaml "gopkg.in/yaml.v2"
 )
 
 type configuration struct {
@@ -11,6 +12,10 @@ type configuration struct {
 
 var configs configuration
 
+// ReadConfigFile reads the yml config file of given string
+// and save configs into struct configuration
+// To access the config use Data() function
+// It returns any errors encountered
 func ReadConfigFile(filePath string) error {
 	data, err := ioutil.ReadFile(filePath)
 	if err != nil {
@@ -28,6 +33,8 @@ func readBytes(data []byte) error {
 	return err
 }
 
+// Data reads data's struct field
+// It returns the configuration file parsead
 func Data() map[interface{}]interface{} {
 	return configs.data
 }
