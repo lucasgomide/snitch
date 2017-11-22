@@ -1,7 +1,8 @@
 # Snitch
-[![Build Status](https://travis-ci.org/lucasgomide/snitch.svg?branch=master)](https://travis-ci.org/lucasgomide/snitch)
-[![Coverage Status](https://coveralls.io/repos/github/lucasgomide/snitch/badge.svg?branch=master)](https://coveralls.io/github/lucasgomide/snitch?branch=master)
 [![Documentation](https://godoc.org/github.com/lucasgomide/snitch?status.svg)](http://godoc.org/github.com/lucasgomide/snitch)
+[![Coverage Status](https://coveralls.io/repos/github/lucasgomide/snitch/badge.svg?branch=master)](https://coveralls.io/github/lucasgomide/snitch?branch=master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lucasgomide/snitch)](https://goreportcard.com/report/github.com/lucasgomide/snitch)
+[![Build Status](https://travis-ci.org/lucasgomide/snitch.svg?branch=master)](https://travis-ci.org/lucasgomide/snitch)
 
 Keep updated about each deploy via [Tsuru](https://docs.tsuru.io/stable/).
 
