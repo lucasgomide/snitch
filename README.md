@@ -56,7 +56,7 @@ Here is all avaliables hook's configurations and your descriptions. Remember tha
   - **host** Tell to Snitch your sentry host (e.g http://sentry.io or http://sentry.self.hosted)
   - **organization_slug** The organization slug is a unique ID used to identify your organization. (You'll find it at your sentry's configuration, probably)
   - **project_slug** The Project Slug is a unique ID used to identify your project (You'll find it at your project config)
-  - **auth_token** The Auth Token to use the Sentry Web API. You can find more [here](https://docs.sentry.io/api/auth/#auth-tokens)
+  - **auth_token** The token used to authenticate on Sentry API. To generate a new token, you have to access [manager auth tokens](https://sentry.io/api) then create a token. If you are using Sentry self hosted, you need change the domain _sentry.io_ to your own domain, example: _sentry.snitch.com/api_. Find more information [on Sentry documentation](https://docs.sentry.io/api/auth/#auth-tokens)
   - **env** The application's environment variable (e.g development, production)
 
 - Rollbar
