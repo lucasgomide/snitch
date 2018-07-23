@@ -91,6 +91,9 @@ func TestShouldExecuteHooksFromConfig(t *testing.T) {
 	httpmock.RegisterResponder("POST", "http://dummy.sample",
 		httpmock.NewStringResponder(200, `ok`))
 
+	httpmock.RegisterResponder("POST", "http://hangouts.chat.sample",
+		httpmock.NewStringResponder(200, `ok`))
+
 	httpmock.RegisterResponder("POST", "https://api.rollbar.com/api/1/deploy/",
 		httpmock.NewStringResponder(200, `ok`))
 
@@ -116,6 +119,7 @@ func TestShouldExecuteHooksFromConfig(t *testing.T) {
 
 	if msg != "" {
 		t.Error("Expected that msg is not empty, got empty msg")
+		t.Error(msg)
 	}
 }
 

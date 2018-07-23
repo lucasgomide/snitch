@@ -1,5 +1,7 @@
 slack:
   webhook_url: http://dummy.sample
+hangouts_chat:
+  webhook_url: http://hangouts.chat.sample
 missing_hook:
   field: value
 rollbar:
