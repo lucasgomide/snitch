@@ -22,7 +22,7 @@ func Execute(h types.Hook, t types.Tsuru) {
 		utils.LogError(err.Error())
 	} else {
 		for hookName, conf := range config.Data() {
-			switch strings.Title(hookName.(string)) {
+			switch defineHookName(hookName.(string)) {
 			case "Slack":
 				h = &Slack{}
 			case "Sentry":
@@ -31,6 +31,8 @@ func Execute(h types.Hook, t types.Tsuru) {
 				h = &Rollbar{}
 			case "Newrelic":
 				h = &NewRelic{}
+			case "Hangouts Chat":
+				h = &HangoutsChat{}
 			default:
 				continue
 			}
@@ -73,4 +75,10 @@ func executeHook(h types.Hook, deploy []types.Deploy, conf interface{}) error {
 	}
 
 	return nil
+}
+
+func defineHookName(name string) string {
+	return strings.Title(
+		strings.Join(strings.Split(name, "_"), " "),
+	)
 }
