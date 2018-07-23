@@ -69,6 +69,9 @@ Here is all avaliables hook's configurations and your descriptions. Remember tha
   - **api_key** The API Key to use the NewRelic REST API. You can find more [here](https://docs.newrelic.com/docs/apis/rest-api-v2/getting-started/api-keys)
   - **revision** The application's current revision (e.g 0.0.1r42)
 
+- HangoutsChat
+  - **webhook_url** Indicates the Webhook URL to dispatch messages to HangoutsChat Room.
+
 ## Example
 
 [Snitch App Sample](https://github.com/lucasgomide/snitch-app-example)
